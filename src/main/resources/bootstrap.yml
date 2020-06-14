@@ -1,0 +1,45 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.addr:106.12.57.217:8848}
+        register-enabled: true
+        namespace: ${nacos.namespace:dev}
+      config:
+        server-addr: ${nacos.addr:106.12.57.217:8848}
+        namespace: ${nacos.namespace:dev}
+        extension-configs:
+          - dataId: db-user.properties
+            refresh: false
+        enabled: true
+        file-extension: properties
+    sentinel:
+      datasource:
+        flow:
+          nacos:
+            groupId: SENTINEL_GROUP
+            dataId: ${spring.application.name}-flow-rules
+            server-addr: ${nacos.addr:106.12.57.217:8848}
+            namespace: ${nacos.namespace:dev}
+            data-type: json
+            rule-type: flow
+        degrade:
+          nacos:
+            groupId: SENTINEL_GROUP
+            dataId: ${spring.application.name}-degrade-rules
+            server-addr: ${nacos.addr:106.12.57.217:8848}
+            namespace: ${nacos.namespace:dev}
+            data-type: json
+            rule-type: degrade
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: project-user
+          uri: lb://project-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
