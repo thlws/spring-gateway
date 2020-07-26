@@ -1,4 +1,4 @@
-package com.thlws.project.projectgateway.errors;
+package com.thlws.springcloud.gateway.errors;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * https://juejin.im/post/5cd66c0a518825506b6c577e
  * 网关自定义异常
  * @author HanleyTang 2020/7/25
  */
@@ -59,8 +60,6 @@ public class CustomErrorWebFluxAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(value = ErrorWebExceptionHandler.class,
-            search = SearchStrategy.CURRENT)
     @Order(-1)
     public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
 

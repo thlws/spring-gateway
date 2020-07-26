@@ -8,11 +8,11 @@
         <version>1.0.0-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.thlws.project</groupId>
-    <artifactId>project-gateway</artifactId>
+    <groupId>com.thlws.springcloud</groupId>
+    <artifactId>springcloud-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>project-gateway</name>
-    <description>Demo project for Spring Boot</description>
+    <name>springcloud-gateway</name>
+    <description>spring cloud gateway for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -20,6 +20,30 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.thlws.framework</groupId>
+            <artifactId>springcloud-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -48,8 +72,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,4 +1,4 @@
-package com.thlws.project.projectgateway.errors;
+package com.thlws.springcloud.gateway.errors;
 
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
@@ -19,10 +19,19 @@ import java.util.Map;
 
 /**
  * https://juejin.im/post/5cd66c0a518825506b6c577e
- * @author HanleyTang 2020/7/25
+ * The type Json error web exception handler.
+ * @author HanleyTang
  */
 public class JsonErrorWebExceptionHandler extends DefaultErrorWebExceptionHandler {
 
+    /**
+     * Instantiates a new Json error web exception handler.
+     *
+     * @param errorAttributes    the error attributes
+     * @param resourceProperties the resource properties
+     * @param errorProperties    the error properties
+     * @param applicationContext the application context
+     */
     public JsonErrorWebExceptionHandler(ErrorAttributes errorAttributes,
                                         ResourceProperties resourceProperties,
                                         ErrorProperties errorProperties,
@@ -54,12 +63,6 @@ public class JsonErrorWebExceptionHandler extends DefaultErrorWebExceptionHandle
         return errorAttributes;
     }
 
-    /***
-     * 默认的实现只支持 html ，改造支持所有数据
-     * @see DefaultErrorWebExceptionHandler#getRoutingFunction
-     * @param errorAttributes
-     * @return
-     */
     @Override
     @SuppressWarnings("NullableProblems")
     protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
@@ -67,11 +70,6 @@ public class JsonErrorWebExceptionHandler extends DefaultErrorWebExceptionHandle
     }
 
 
-    /**
-     * 根据 request 解析 http状态码
-     * @param request
-     * @return
-     */
     private HttpStatus getHttpStatus(ServerRequest request) {
         Throwable error = super.getError(request);
         ResponseStatus responseStatus = AnnotatedElementUtils

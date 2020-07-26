@@ -31,11 +31,11 @@ spring:
 #            namespace: ${nacos.namespace:dev}
 #            data-type: json
 #            rule-type: degrade
-#    gateway:
-#      discovery:
-#        locator:
-#          enabled: true
-#          lower-case-service-id: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 #      routes:
 #        - id: project-user
 #          uri: lb://project-user
@@ -43,3 +43,14 @@ spring:
 #            - Path=/api/user/**
 #          filters:
 #            - StripPrefix=2
+#        - id: after_route
+#          uri: https://example.org
+#          predicates:
+#            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+#            - Before=2017-01-20T17:42:47.789-07:00[America/Denver]
+#            - name: Cookie
+#              args:
+#                - name: mycookie
+#                  regexp: hanleyValue1008
+#                - name: x-client
+#                  regexp: app
