@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,7 @@ public class RouteUtil {
             List<FilterDefinition> filters = JSON.parseArray(route.getFilters(), FilterDefinition.class);
             routeDefinition.setFilters(filters);
         }
+        routeDefinition.setUri(URI.create(route.getRouteUri()));
         routeDefinition.setId(route.getRouteId());
         routeDefinition.setOrder(route.getRouteOrder());
 
@@ -34,6 +36,8 @@ public class RouteUtil {
 
     public static Route buildRoute(RouteDefinition routeDefinition) {
         Route route = new Route();
+        String routeUri = routeDefinition.getUri().toString();
+        route.setRouteUri(routeUri);
         route.setCreateTime(LocalDateTime.now());
         route.setRouteId(routeDefinition.getId());
         route.setRouteOrder(routeDefinition.getOrder());
