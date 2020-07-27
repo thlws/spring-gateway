@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 暴露API
+ * 暴露服务
  * </p>
  *
  * @author Mybatis plus generator
@@ -19,8 +19,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("export_api")
-public class ExportApi implements Serializable {
+@TableName("expose_svc")
+public class ExposeSvc implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -31,28 +31,22 @@ public class ExportApi implements Serializable {
     private Long id;
 
     /**
-     * 微服务名称
+     * 服务名称
      */
     @TableField("service_name")
     private String serviceName;
 
     /**
-     * 服务路径
+     * 服务说明
      */
-    @TableField("service_path")
-    private String servicePath;
+    @TableField("remark")
+    private String remark;
 
     /**
      * 0禁用; 1启用
      */
     @TableField("status")
     private Integer status;
-
-    /**
-     * 0放行; 1鉴权
-     */
-    @TableField("auth")
-    private Integer auth;
 
     /**
      * 创建日期

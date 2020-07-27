@@ -13,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RouteService extends IService<Route> {
 
-    public void deleteByRouteId(String routeId);
+    void deleteByRouteId(String routeId);
 }

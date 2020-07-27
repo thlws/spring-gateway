@@ -36,13 +36,13 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-#      routes:
-#        - id: project-user
-#          uri: lb://project-user
-#          predicates:
-#            - Path=/api/user/**
-#          filters:
-#            - StripPrefix=2
+      routes:
+        - id: project-user
+          uri: lb://project-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
 #        - id: after_route
 #          uri: https://example.org
 #          predicates:

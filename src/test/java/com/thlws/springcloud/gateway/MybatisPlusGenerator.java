@@ -22,9 +22,9 @@ public class MybatisPlusGenerator {
     private final static String parentPackage = "com.thlws.springcloud.gateway.internal.core";
 
     private final static List<String> tables = Arrays.asList(
-             "export_svc"
+             "expose_svc"
             ,"route"
-            ,"export_api"
+            ,"expose_api"
             );
 
     public static void main(String[] args) {

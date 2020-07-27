@@ -1,6 +1,6 @@
 
 #暴露服务
-CREATE TABLE `export_svc` (
+CREATE TABLE `expose_svc` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `service_name` varchar(512)  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '服务名称',
   `remark` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '服务说明',
@@ -17,6 +17,7 @@ CREATE TABLE `route` (
    `route_order` int(10) NOT NULL COMMENT '顺序',
    `filters` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '过滤 JSON',
    `predicates` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '断言 JSON',
+   `metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'metadata JSON',
    `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '0禁用; 1启用',
    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
    PRIMARY KEY (`id`)
@@ -24,7 +25,7 @@ CREATE TABLE `route` (
 
 
 #暴露API
-CREATE TABLE `export_api` (
+CREATE TABLE `expose_api` (
    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
    `service_name` varchar(20) NOT NULL COMMENT '微服务名称',
    `service_path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '服务路径',

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author Mybatis plus generator
- * @since 2020-07-26
+ * @since 2020-07-27
  */
 @RestController
 @RequestMapping("/apis")
-public class ExportApiController {
+public class ExposeApiController {
 
 }
 

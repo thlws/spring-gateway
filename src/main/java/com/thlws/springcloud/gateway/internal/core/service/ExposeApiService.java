@@ -1,6 +1,6 @@
 package com.thlws.springcloud.gateway.internal.core.service;
 
-import com.thlws.springcloud.gateway.internal.core.model.ExportApi;
+import com.thlws.springcloud.gateway.internal.core.model.ExposeApi;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Mybatis plus generator
  * @since 2020-07-27
  */
-public interface ExportApiService extends IService<ExportApi> {
+public interface ExposeApiService extends IService<ExposeApi> {
 
 }
