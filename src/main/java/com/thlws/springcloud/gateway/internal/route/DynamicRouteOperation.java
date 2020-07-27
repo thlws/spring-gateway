@@ -7,13 +7,14 @@ import com.thlws.springcloud.gateway.internal.core.service.RouteService;
 import com.thlws.springcloud.gateway.internal.util.RouteUtil;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
+import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 
 /**
  * @author HanleyTang 2020/7/26
@@ -25,7 +26,7 @@ public class DynamicRouteOperation implements ApplicationEventPublisherAware {
     private RouteService routeService;
 
     @Resource(name = "mySqlRouteDefinitionRepository")
-    private RouteDefinitionWriter routeDefinitionWriter;
+    private RouteDefinitionRepository routeDefinitionRepository;
 
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -38,22 +39,32 @@ public class DynamicRouteOperation implements ApplicationEventPublisherAware {
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
+    /**
+     * 新增网关.
+     * 直接操作 routeService 完成数据插入并刷新,效果一样
+     * @see RouteService#save(Object)
+     * @param route 路由配置
+     */
     public void insert(Route route) {
         RouteDefinition routeDefinition = RouteUtil.buildRouteDefinition(route);
-        routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
+        routeDefinitionRepository.save(Mono.just(routeDefinition)).subscribe();
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
     public void update(Route route) {
-        RouteDefinition routeDefinition = RouteUtil.buildRouteDefinition(route);
-        routeDefinitionWriter.delete(Mono.just(routeDefinition.getId())).subscribe();
-        routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
+        routeService.updateById(route);
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
+    /**
+     * 移除路由.
+     * 直接操作 routeService 删除数据,效果一样
+     * @see RouteService#removeById(Serializable)
+     * @param id the id
+     */
     public void delete(Long id) {
         Route route = detail(id);
-        routeDefinitionWriter.delete(Mono.just(route.getRouteId())).subscribe();
+        routeDefinitionRepository.delete(Mono.just(route.getRouteId())).subscribe();
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
