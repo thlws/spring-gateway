@@ -81,9 +81,25 @@ public class JsonErrorWebExceptionHandler extends DefaultErrorWebExceptionHandle
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         boolean includeStackTrace = isIncludeStackTrace(request, MediaType.ALL);
         Map<String, Object> error = getErrorAttributes(request, includeStackTrace);
-        return ServerResponse.status(getHttpStatus(request)).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(BodyInserters.fromObject(error));
+        return ServerResponse.status(getHttpStatus(request)).contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(error));
     }
 
+
+//    @Override
+//    public Mono<Void> handle(ServerWebExchange exchange, Throwable throwable) {
+//
+//        if (exchange.getResponse().isCommitted() || isDisconnectedClientError(throwable)) {
+//            return Mono.error(throwable);
+//        }
+//        this.errorAttributes.storeErrorInformation(throwable, exchange);
+//        ServerRequest request = ServerRequest.create(exchange, this.messageReaders);
+//        return getRoutingFunction(this.errorAttributes).route(request).switchIfEmpty(Mono.error(throwable))
+//                .flatMap((handler) -> handler.handle(request))
+//                .doOnNext((response) -> logError(request, response, throwable))
+//                .flatMap((response) -> write(exchange, response));
+//
+//        return super.handle(exchange, throwable);
+//    }
 }
 
