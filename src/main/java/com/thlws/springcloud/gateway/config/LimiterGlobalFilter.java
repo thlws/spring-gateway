@@ -43,14 +43,11 @@ public class LimiterGlobalFilter implements GlobalFilter, Ordered {
                     .setBurstCapacity(1).setReplenishRate(1).setRequestedTokens(1);
             Mono<RateLimiter.Response> responseMono = customRedisRateLimiter.isAllowed(path, config);
 
-            //Mono<Boolean> isAllowed =  responseMono.map(RateLimiter.Response::isAllowed);
+//            Mono<Boolean> isAllowed =  responseMono.map(RateLimiter.Response::isAllowed);
 
-
-            responseMono.flatMap(res -> {
-                for (Map.Entry<String, String> header : res.getHeaders()
-                        .entrySet()) {
-                    exchange.getResponse().getHeaders().add(header.getKey(),
-                            header.getValue());
+            return responseMono.flatMap(res -> {
+                for (Map.Entry<String, String> header : res.getHeaders().entrySet()) {
+                    exchange.getResponse().getHeaders().add(header.getKey(),header.getValue());
                 }
 
                 if (res.isAllowed()) {
@@ -66,8 +63,6 @@ public class LimiterGlobalFilter implements GlobalFilter, Ordered {
 
 //                setResponseStatus(exchange, HttpStatus.TOO_MANY_REQUESTS);
 //                return exchange.getResponse().setComplete();
-
-
 
             });
 
@@ -89,7 +84,9 @@ public class LimiterGlobalFilter implements GlobalFilter, Ordered {
         }
 
         return chain.filter(exchange);
+//        return customRedisRateLimiter.isAllowed(path, null);
     }
+
 
     @Override
     public int getOrder() {
