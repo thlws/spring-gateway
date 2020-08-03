@@ -43,11 +43,11 @@ spring:
             - Path=/api/user/**
           filters:
             - StripPrefix=2
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@apiKeyResolver}'
-                redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 1
+#            - name: RequestRateLimiter
+#              args:
+#                key-resolver: '#{@apiKeyResolver}'
+#                redis-rate-limiter.replenishRate: 1
+#                redis-rate-limiter.burstCapacity: 1
 #          filters:
 #            - StripPrefix=2
 #        - id: after_route

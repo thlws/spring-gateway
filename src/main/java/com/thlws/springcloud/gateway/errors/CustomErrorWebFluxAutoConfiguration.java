@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * https://juejin.im/post/5cd66c0a518825506b6c577e
- * 网关自定义异常
+ * 网关自定义异常,不包括限流处理[gateway被限流后不认为是异常]
  * @author HanleyTang 2020/7/25
  */
 @Configuration

@@ -1,8 +1,7 @@
-package com.thlws.springcloud.gateway.config;
+package com.thlws.springcloud.gateway.limiter;
 
 import com.alibaba.fastjson.JSON;
 import com.thlws.commons.ApiResult;
-import com.thlws.springcloud.gateway.limiter.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -10,6 +9,7 @@ import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -18,24 +18,29 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author HanleyTang 2020/8/2
  */
 @Slf4j
 @Component
-public class LimiterGlobalFilter implements GlobalFilter, Ordered {
+public class LimiterFilter implements GlobalFilter, Ordered {
 
     @Resource
-    private CustomRedisRateLimiter customRedisRateLimiter;
+    private MyRateLimiter customRedisRateLimiter;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest  request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String path = request.getPath().value();
-        log.info("请求路径:{}",path);
+        String host = Objects.requireNonNull(request.getRemoteAddress()).getHostName();
+        List<String> headers =  request.getHeaders().get("user");
+
+        log.info("请求路径={}, host={}",path,host);
 
         if (path.contains("/flow")) {
 
@@ -56,7 +61,8 @@ public class LimiterGlobalFilter implements GlobalFilter, Ordered {
                 byte [] bytes = JSON.toJSONString(apiResult).getBytes(StandardCharsets.UTF_8);
                 DataBuffer buffer = response.bufferFactory().wrap(bytes);
                 response.setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
-                response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+                response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
                 return response.writeWith(Mono.just(buffer));
 
             });

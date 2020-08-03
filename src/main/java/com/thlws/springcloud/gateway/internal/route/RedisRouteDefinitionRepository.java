@@ -2,6 +2,7 @@ package com.thlws.springcloud.gateway.internal.route;
 
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -12,8 +13,11 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
 
     public static final String   GATEWAY_ROUTES = "gateway:routes";
 
-//    @Autowired
-//    private RedisTemplate<String, Object> redisTemplate;
+    private final ReactiveStringRedisTemplate redisTemplate;
+
+    public RedisRouteDefinitionRepository(ReactiveStringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {

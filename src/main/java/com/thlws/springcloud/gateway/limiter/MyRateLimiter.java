@@ -1,7 +1,6 @@
-package com.thlws.springcloud.gateway.config;
+package com.thlws.springcloud.gateway.limiter;
 
 
-import com.thlws.springcloud.gateway.limiter.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
@@ -22,7 +21,7 @@ import java.util.*;
  */
 @Slf4j
 @Component
-public class CustomRedisRateLimiter {
+public class MyRateLimiter {
 
     private final ReactiveStringRedisTemplate redisTemplate;
 
@@ -34,12 +33,18 @@ public class CustomRedisRateLimiter {
      * @param redisTemplate The reactiveStringRedisTemplate
      * @param redisScript   注入 gateway 官方 RedisScript  request-rate-limiter.lua 脚本
      */
-    public CustomRedisRateLimiter(ReactiveStringRedisTemplate redisTemplate,
-                                  RedisScript<List<Long>> redisScript) {
+    public MyRateLimiter(ReactiveStringRedisTemplate redisTemplate,
+                         RedisScript<List<Long>> redisScript) {
         this.redisTemplate = redisTemplate;
         this.redisScript = redisScript;
     }
 
+    /***
+     * 放行检测
+     * @param key 限流纬度key, 可以是 API, HOST, UER
+     * @param config 限流配置
+     * @return 是否放行
+     */
     public Mono<RateLimiter.Response> isAllowed(String key, LimiterConfig config) {
 
         List<String> keys = getKeys(key);

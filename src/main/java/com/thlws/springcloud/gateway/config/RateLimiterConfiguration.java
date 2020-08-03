@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 
 /**
- * 限流配置
+ * Gateway 内置限流配置
  * @author HanleyTang 2020/8/1
  */
 @Configuration
@@ -30,6 +30,7 @@ public class RateLimiterConfiguration {
     KeyResolver apiKeyResolver() {
         return exchange -> Mono.just(exchange.getRequest().getPath().value());
     }
+
 
 
 //    @Bean
