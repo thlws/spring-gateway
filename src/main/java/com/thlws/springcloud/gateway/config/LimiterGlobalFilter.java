@@ -2,11 +2,11 @@ package com.thlws.springcloud.gateway.config;
 
 import com.alibaba.fastjson.JSON;
 import com.thlws.commons.ApiResult;
+import com.thlws.springcloud.gateway.limiter.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
-import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
@@ -39,18 +39,16 @@ public class LimiterGlobalFilter implements GlobalFilter, Ordered {
 
         if (path.contains("/flow")) {
 
-            RedisRateLimiter.Config config = new RedisRateLimiter.Config()
-                    .setBurstCapacity(1).setReplenishRate(1).setRequestedTokens(1);
+            LimiterConfig config = LimiterConfig.builder()
+                    .burstCapacity(1).replenishRate(1).requestedTokens(1).build();
             Mono<RateLimiter.Response> responseMono = customRedisRateLimiter.isAllowed(path, config);
 
-//            Mono<Boolean> isAllowed =  responseMono.map(RateLimiter.Response::isAllowed);
-
-            return responseMono.flatMap(res -> {
-                for (Map.Entry<String, String> header : res.getHeaders().entrySet()) {
+            return responseMono.flatMap(r -> {
+                for (Map.Entry<String, String> header : r.getHeaders().entrySet()) {
                     exchange.getResponse().getHeaders().add(header.getKey(),header.getValue());
                 }
 
-                if (res.isAllowed()) {
+                if (r.isAllowed()) {
                     return chain.filter(exchange);
                 }
 
@@ -61,30 +59,11 @@ public class LimiterGlobalFilter implements GlobalFilter, Ordered {
                 response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
                 return response.writeWith(Mono.just(buffer));
 
-//                setResponseStatus(exchange, HttpStatus.TOO_MANY_REQUESTS);
-//                return exchange.getResponse().setComplete();
-
             });
 
-
-
-//            ApiResult<String> apiResult = ApiResult.error(HttpStatus.TOO_MANY_REQUESTS.value(), "请求过于频繁.");
-//            byte [] bytes = JSON.toJSONString(apiResult).getBytes(StandardCharsets.UTF_8);
-//            DataBuffer buffer = response.bufferFactory().wrap(bytes);
-//            response.setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
-//            response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-//            return response.writeWith(Mono.just(buffer));
-
-
-
-//            exchange.getResponse().writeWith(Mono.just(buffer));
-//            exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
-//            return Mono.empty();
-//            return response.setComplete();
         }
 
         return chain.filter(exchange);
-//        return customRedisRateLimiter.isAllowed(path, null);
     }
 
 

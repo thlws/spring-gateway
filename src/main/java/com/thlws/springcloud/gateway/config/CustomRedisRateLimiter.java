@@ -1,6 +1,7 @@
 package com.thlws.springcloud.gateway.config;
 
 
+import com.thlws.springcloud.gateway.limiter.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
@@ -39,7 +40,7 @@ public class CustomRedisRateLimiter {
         this.redisScript = redisScript;
     }
 
-    public Mono<RateLimiter.Response> isAllowed(String key, RedisRateLimiter.Config config) {
+    public Mono<RateLimiter.Response> isAllowed(String key, LimiterConfig config) {
 
         List<String> keys = getKeys(key);
 
@@ -104,7 +105,7 @@ public class CustomRedisRateLimiter {
         return Arrays.asList(tokenKey, timestampKey);
     }
 
-    private Map<String, String> getHeaders(RedisRateLimiter.Config config, Long tokensLeft) {
+    private Map<String, String> getHeaders(LimiterConfig config, Long tokensLeft) {
         Map<String, String> headers = new HashMap<>(Collections.emptyMap());
             headers.put(RedisRateLimiter.REMAINING_HEADER, tokensLeft.toString());
             headers.put(RedisRateLimiter.REPLENISH_RATE_HEADER,
