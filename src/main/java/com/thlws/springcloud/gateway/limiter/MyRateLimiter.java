@@ -1,6 +1,7 @@
 package com.thlws.springcloud.gateway.limiter;
 
 
+import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;

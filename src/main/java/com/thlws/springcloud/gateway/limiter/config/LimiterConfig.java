@@ -1,4 +1,4 @@
-package com.thlws.springcloud.gateway.limiter;
+package com.thlws.springcloud.gateway.limiter.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 /**
  * @author HanleyTang 2020/8/3
@@ -16,7 +17,7 @@ import javax.validation.constraints.Min;
 @Validated
 @NoArgsConstructor
 @AllArgsConstructor
-public class LimiterConfig {
+public class LimiterConfig implements Serializable {
 
     @Min(1)
     private int replenishRate;
