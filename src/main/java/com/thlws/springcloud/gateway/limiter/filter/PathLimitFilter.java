@@ -26,20 +26,19 @@ public class PathLimitFilter implements GlobalFilter, Ordered {
     @Resource
     private LimitProcessor limitProcessor;
 
-    @Resource(name = "reactiveRedisTemplate")
+    @Resource(name = "customerReactiveRedisTemplate")
     private ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest  request = exchange.getRequest();
         String path = request.getPath().value();
-
+        log.info("path={}",path);
         Flux<Object> apis = reactiveRedisTemplate.opsForHash().keys("limiter:config:api");
         Flux<Object> matchedApiList = apis.filter(e-> PathUtil.match(e.toString(),path));
         Mono<Object> matchedApiOne = matchedApiList.singleOrEmpty();
 
         return matchedApiOne.flatMap(e->{
-            System.out.println(e.toString());
             Mono<Object> matchedConfig = reactiveRedisTemplate.opsForHash().get("limiter:config:api", e.toString());
             return matchedConfig.flatMap(one->{
                 LimiterConfig config = (LimiterConfig)one;

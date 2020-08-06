@@ -7,12 +7,14 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * @author HanleyTang 2020/8/5
@@ -30,12 +32,10 @@ public class LimitProcessor {
 
         Mono<RateLimiter.Response> responseMono = customRedisRateLimiter.isAllowed(key, config);
         return responseMono.flatMap(r -> {
-//            for (Map.Entry<String, String> header : r.getHeaders().entrySet()) {
-//                exchange.getResponse().getHeaders().add(header.getKey(),header.getValue());
-//            }
-//            java.lang.UnsupportedOperationException: null
-//	at org.springframework.http.ReadOnlyHttpHeaders.add(ReadOnlyHttpHeaders.java:91) ~[spring-web-5.2.4.RELEASE.jar:5.2.4.RELEASE]
-//	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException:
+
+            for (Map.Entry<String, String> header : r.getHeaders().entrySet()) {
+                exchange.getResponse().getHeaders().add(header.getKey(),header.getValue());
+            }
 
             if (r.isAllowed()) {
                 return chain.filter(exchange);
@@ -45,7 +45,7 @@ public class LimitProcessor {
             byte [] bytes = JSON.toJSONString(apiResult).getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
             exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
-            //exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
             return exchange.getResponse().writeWith(Mono.just(buffer));
 

@@ -1,7 +1,6 @@
 package com.thlws.springcloud.gateway.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -14,12 +13,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author HanleyTang 2020/8/5
+ * @see org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
  */
 @Configuration
 public class CustomerRedisReactiveAutoConfiguration {
 
-    @Bean(name = "reactiveRedisTemplate")
-    @ConditionalOnMissingBean(name = "reactiveRedisTemplate")
+    @Bean(name = "customerReactiveRedisTemplate")
     public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(
             ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
 

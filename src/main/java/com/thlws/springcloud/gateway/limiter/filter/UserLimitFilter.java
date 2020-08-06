@@ -22,11 +22,12 @@ public class UserLimitFilter implements GlobalFilter, Ordered {
     @Resource
     private LimitProcessor limitProcessor;
 
-    @Resource(name = "reactiveRedisTemplate")
+    @Resource(name = "customerReactiveRedisTemplate")
     private ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        log.info("user={}","MyUser");
 //        ServerHttpRequest  request = exchange.getRequest();
 //        request.getHeaders().add("user","hanley");
 //        String user =  Objects.requireNonNull(request.getHeaders().get("user")).get(0);
@@ -44,7 +45,7 @@ public class UserLimitFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -6;
+        return 1;
     }
 
 }
