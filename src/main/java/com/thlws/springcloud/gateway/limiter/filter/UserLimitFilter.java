@@ -29,27 +29,23 @@ public class UserLimitFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("user={}","MyUser");
+        log.info("user={}","Hanley");
         ServerHttpRequest request = exchange.getRequest();
 //        request.getHeaders().add("user","hanley");
 //        String user =  Objects.requireNonNull(request.getHeaders().get("user")).get(0);
-
         String user = "hanley";
 
         Mono<Object> limiter = reactiveRedisTemplate.opsForHash().get("limiter:config:user", user);
         return limiter.flatMap(e->{
             LimiterConfig config = (LimiterConfig)e;
-//            log.info("gateway user limiter user=[{}],config=[{}]",user,config.toString());
             return limitProcessor.limit(exchange,chain,user,config);
         }).switchIfEmpty(chain.filter(exchange));
-
-//        return chain.filter(exchange);
 
     }
 
     @Override
     public int getOrder() {
-        return 1;
+        return 0;
     }
 
 }

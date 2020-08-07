@@ -40,7 +40,9 @@ public class LimitProcessor {
             }
 
             if (r.isAllowed()) {
-                return chain.filter(exchange);
+//                return chain.filter(exchange);
+//                return exchange.getResponse().setComplete();
+                return Mono.empty();
             }
 
             log.info("request has been limited [{}],config=[{}]",key,config.toString());

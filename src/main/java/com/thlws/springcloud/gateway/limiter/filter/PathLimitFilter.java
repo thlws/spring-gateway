@@ -31,9 +31,10 @@ public class PathLimitFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("path={}","MyPath");
+
         ServerHttpRequest  request = exchange.getRequest();
         String path = request.getPath().value();
+        log.info("path={}",path);
         Flux<Object> apis = reactiveRedisTemplate.opsForHash().keys("limiter:config:api");
         Flux<Object> matchedApiList = apis.filter(e-> PathUtil.match(e.toString(),path));
         Mono<Object> matchedApiOne = matchedApiList.singleOrEmpty();
@@ -42,7 +43,6 @@ public class PathLimitFilter implements GlobalFilter, Ordered {
             Mono<Object> matchedConfig = reactiveRedisTemplate.opsForHash().get("limiter:config:api", e.toString());
             return matchedConfig.flatMap(one->{
                 LimiterConfig config = (LimiterConfig)one;
-//                log.info("gateway path limiter path=[{}],config=[{}]",path,config.toString());
                 return limitProcessor.limit(exchange,chain,path,config);
             });
         }).switchIfEmpty(chain.filter(exchange));
@@ -51,7 +51,7 @@ public class PathLimitFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return 2;
+        return 0;
     }
 
 }
