@@ -31,7 +31,7 @@ public class HostLimitFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest  request = exchange.getRequest();
         String host = Objects.requireNonNull(request.getRemoteAddress()).getHostName();
-
+        log.info("host={}","MyHost");
         Mono<Object> limiter = reactiveRedisTemplate.opsForHash().get("limiter:config:host", host);
         return limiter.flatMap(e->{
             LimiterConfig config = (LimiterConfig)e;
@@ -43,7 +43,7 @@ public class HostLimitFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return 3;
+        return 0;
     }
 
 }

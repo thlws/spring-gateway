@@ -7,10 +7,13 @@ spring:
   application:
     name: project-gateway
   datasource:
-    url: jdbc:mysql://localhost:3300/gateway
-    username: root
-    password: 123456
+    url: ${db.user.url}
+    username: ${db.user.username}
+    password: ${db.user.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 47.96.168.139
+    port: 6379
 
 management:
   endpoints:

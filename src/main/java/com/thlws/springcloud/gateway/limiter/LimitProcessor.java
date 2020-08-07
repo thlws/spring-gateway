@@ -3,6 +3,7 @@ package com.thlws.springcloud.gateway.limiter;
 import com.alibaba.fastjson.JSON;
 import com.thlws.commons.ApiResult;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.ratelimit.RateLimiter;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -19,6 +20,7 @@ import java.util.Map;
 /**
  * @author HanleyTang 2020/8/5
  */
+@Slf4j
 @Component
 public class LimitProcessor {
 
@@ -40,6 +42,8 @@ public class LimitProcessor {
             if (r.isAllowed()) {
                 return chain.filter(exchange);
             }
+
+            log.info("request has been limited [{}],config=[{}]",key,config.toString());
 
             ApiResult<String> apiResult = ApiResult.error(HttpStatus.TOO_MANY_REQUESTS.value(), "请求过于频繁.");
             byte [] bytes = JSON.toJSONString(apiResult).getBytes(StandardCharsets.UTF_8);
