@@ -40,8 +40,7 @@ public class LimitProcessor {
             }
 
             if (r.isAllowed()) {
-//                return chain.filter(exchange);
-//                return exchange.getResponse().setComplete();
+               // return chain.filter(exchange);//导致重复执行Filter
                 return Mono.empty();
             }
 
