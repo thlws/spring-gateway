@@ -16,7 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @see org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
  */
 @Configuration
-public class CustomerRedisReactiveAutoConfiguration {
+public class RedisSerializeConfig {
 
     @Bean(name = "customerReactiveRedisTemplate")
     public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(

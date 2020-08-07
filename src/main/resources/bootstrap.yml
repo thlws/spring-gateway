@@ -43,6 +43,12 @@ spring:
             - Path=/api/user/**
           filters:
             - StripPrefix=2
+#        - id: custom-http
+#          uri: http://www.baidu.com
+#          predicates:
+#            - Path=/search/**
+#          filters:
+#            - StripPrefix=1
 #            - name: RequestRateLimiter
 #              args:
 #                key-resolver: '#{@apiKeyResolver}'
