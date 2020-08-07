@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
  * @author HanleyTang 2020/8/2
  */
 @Slf4j
-//@Component
+@Component
 public class HostLimitFilter implements GlobalFilter, Ordered {
 
     @Resource
