@@ -1,8 +1,8 @@
 package com.thlws.springcloud.gateway.internal.route;
 
 import com.google.common.collect.Lists;
-import com.thlws.springcloud.gateway.internal.core.model.Route;
-import com.thlws.springcloud.gateway.internal.core.service.RouteService;
+import com.thlws.springcloud.gateway.internal.core.model.GatewayRoute;
+import com.thlws.springcloud.gateway.internal.core.service.GatewayRouteService;
 import com.thlws.springcloud.gateway.internal.util.RouteUtil;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
@@ -24,31 +24,24 @@ import java.util.List;
 public class MySqlRouteDefinitionRepository implements RouteDefinitionRepository {
 
     @Resource
-    private RouteService routeService;
+    private GatewayRouteService gatewayRouteService;
 
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
         List<RouteDefinition> routeDefinitions = Lists.newArrayList();
-        List<Route> routes = routeService.list();
-        routes.forEach(r-> routeDefinitions.add(RouteUtil.buildRouteDefinition(r)));
+        List<GatewayRoute> routes = gatewayRouteService.list();
+        routes.forEach(e-> routeDefinitions.add(RouteUtil.buildGatewayRouteDefinition(e)));
         return Flux.fromIterable(routeDefinitions);
     }
 
     @Override
     public Mono<Void> save(Mono<RouteDefinition> route) {
-        return route.flatMap(routeDefinition -> {
-            routeService.save(RouteUtil.buildRoute(routeDefinition));
-            return Mono.empty();
-        });
+        return Mono.empty();
     }
 
     @Override
     public Mono<Void> delete(Mono<String> routeId) {
-        return routeId.flatMap(id -> {
-            routeService.deleteByRouteId(id);
-            return Mono.empty();
-        });
+        return Mono.empty();
     }
-
 
 }

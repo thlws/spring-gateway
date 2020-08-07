@@ -1,6 +1,8 @@
 package com.thlws.springcloud.gateway.internal.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.thlws.springcloud.gateway.internal.core.model.GatewayRoute;
 import com.thlws.springcloud.gateway.internal.core.model.Route;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -49,4 +51,38 @@ public class RouteUtil {
         }
         return route;
     }
+
+
+
+
+    public static RouteDefinition buildGatewayRouteDefinition(GatewayRoute route){
+        RouteDefinition routeDefinition = new RouteDefinition();
+        String predicatePath = route.getPredicatePath();
+        if (Objects.nonNull(predicatePath)){
+            if (!predicatePath.startsWith("/")) {
+                predicatePath = "/"+predicatePath;
+            }
+            if (!predicatePath.endsWith("/**")) {
+                predicatePath = predicatePath + "/**";
+            }
+
+            PredicateDefinition predicateDefinition = new PredicateDefinition("Path="+predicatePath);
+            routeDefinition.getPredicates().add(predicateDefinition);
+            int count = StrUtil.count(predicatePath, "/");
+            //StrUtil.count(predicatePath, "/api/user/**");
+
+            FilterDefinition filterDefinition = new FilterDefinition("StripPrefix="+count);
+            routeDefinition.getFilters().add(filterDefinition);
+
+        }
+        routeDefinition.setUri(URI.create(route.getRouteUri()));
+        routeDefinition.setId(route.getRouteId());
+
+        return routeDefinition;
+    }
+
+
+
+
+
 }
