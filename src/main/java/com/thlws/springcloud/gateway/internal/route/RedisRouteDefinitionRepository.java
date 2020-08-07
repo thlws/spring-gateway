@@ -1,11 +1,10 @@
 package com.thlws.springcloud.gateway.internal.route;
 
-import com.alibaba.fastjson.JSON;
 import com.thlws.springcloud.gateway.internal.core.model.GatewayRoute;
 import com.thlws.springcloud.gateway.internal.util.RouteUtil;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
-import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -20,13 +19,13 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
     public static final String GATEWAY_ROUTES = "gateway:routes";
 
     @Resource(name = "customerReactiveRedisTemplate")
-    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
+    private ReactiveRedisTemplate<String,Object> reactiveRedisTemplate;
 
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
-        Flux<String> routeFlux = reactiveStringRedisTemplate.opsForSet().members(GATEWAY_ROUTES);
+        Flux<Object> routeFlux = reactiveRedisTemplate.opsForSet().members(GATEWAY_ROUTES);
         return routeFlux.map(e->{
-            GatewayRoute gatewayRoute = JSON.parseObject(e, GatewayRoute.class);
+            GatewayRoute gatewayRoute = (GatewayRoute)e;
             return RouteUtil.buildGatewayRouteDefinition(gatewayRoute);
         }).switchIfEmpty(Flux.empty());
     }
