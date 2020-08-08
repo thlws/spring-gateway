@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thlws.springcloud.gateway.internal.core.mapper.GatewayLimitMapper">
+<mapper namespace="com.thlws.springcloud.gateway.mybatis.mapper.GatewayLimitMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.thlws.springcloud.gateway.internal.core.model.GatewayLimit">
+    <resultMap id="BaseResultMap" type="com.thlws.springcloud.gateway.mybatis.model.GatewayLimit">
         <id column="id" property="id" />
         <result column="limit_type" property="limitType" />
         <result column="limit_value" property="limitValue" />
         <result column="limit_content" property="limitContent" />
+        <result column="limit_http_method" property="limitHttpMethod" />
         <result column="status" property="status" />
         <result column="create_time" property="createTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, limit_type, limit_value, limit_content, status, create_time
+        id, limit_type, limit_value, limit_content, limit_http_method, status, create_time
     </sql>
 
 </mapper>

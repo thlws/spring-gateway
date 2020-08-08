@@ -1,5 +1,6 @@
 package com.thlws.springcloud.gateway.limiter.filter;
 
+import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.limiter.LimitProcessor;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class UserLimitFilter implements GlobalFilter, Ordered {
 //        String user =  Objects.requireNonNull(request.getHeaders().get("user")).get(0);
         String user = "hanley";
 
-        Mono<Object> limiter = reactiveRedisTemplate.opsForHash().get("limiter:config:user", user);
+        Mono<Object> limiter = reactiveRedisTemplate.opsForHash().get(LimiterEnum.USER.key(), user);
         return limiter.flatMap(e->{
             LimiterConfig config = (LimiterConfig)e;
             return limitProcessor.limit(exchange,chain,user,config);

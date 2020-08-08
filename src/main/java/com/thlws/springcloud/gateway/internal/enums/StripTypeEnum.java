@@ -12,8 +12,8 @@ public enum StripTypeEnum {
     FALSE(0,"否"),
     TRUE(1,"是");
 
-    private int value;
-    private String message;
+    private final int value;
+    private final String message;
 
     StripTypeEnum(int value, String message){
         this.value = value;

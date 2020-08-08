@@ -24,6 +24,8 @@ import java.util.Map;
 @Component
 public class LimitProcessor {
 
+    private final static String ALL_METHODS = "*";
+
     @Resource
     private MyRateLimiter customRedisRateLimiter;
 
@@ -31,6 +33,14 @@ public class LimitProcessor {
                              GatewayFilterChain chain,
                              String key,
                              LimiterConfig config){
+
+        //不满足HTTP METHOD 配置时,直接放行
+        String httpMethod = exchange.getRequest().getMethodValue().toUpperCase();
+        String limitHttpMethod = config.getLimitHttpMethod().toUpperCase();
+        if (!limitHttpMethod.contentEquals(ALL_METHODS)
+                && !limitHttpMethod.contains(httpMethod)) {
+            return Mono.empty();
+        }
 
         Mono<RateLimiter.Response> responseMono = customRedisRateLimiter.isAllowed(key, config);
         return responseMono.flatMap(r -> {

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author HanleyTang
  */
 @Configuration
-@MapperScan(basePackages = "com.thlws.springcloud.gateway.internal.core.mapper")
+@MapperScan(basePackages = "com.thlws.springcloud.gateway.mybatis.mapper")
 @EnableTransactionManagement
 public class MybatisPlusConfig {
 

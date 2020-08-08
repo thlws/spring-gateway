@@ -1,5 +1,6 @@
 package com.thlws.springcloud.gateway.limiter.filter;
 
+import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.limiter.LimitProcessor;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class HostLimitFilter implements GlobalFilter, Ordered {
         ServerHttpRequest  request = exchange.getRequest();
         String host = Objects.requireNonNull(request.getRemoteAddress()).getHostName();
         log.info("host={}",host);
-        Mono<Object> limiter = reactiveRedisTemplate.opsForHash().get("limiter:config:host", host);
+        Mono<Object> limiter = reactiveRedisTemplate.opsForHash().get(LimiterEnum.HOST.key(), host);
         return limiter.flatMap(e->{
             LimiterConfig config = (LimiterConfig)e;
             return limitProcessor.limit(exchange,chain,host,config);

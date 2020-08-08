@@ -1,5 +1,6 @@
 package com.thlws.springcloud.gateway.limiter.filter;
 
+import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.internal.util.PathUtil;
 import com.thlws.springcloud.gateway.limiter.LimitProcessor;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
@@ -35,7 +36,7 @@ public class PathLimitFilter implements GlobalFilter, Ordered {
         ServerHttpRequest  request = exchange.getRequest();
         String path = request.getPath().value();
         log.info("path={}",path);
-        Flux<Object> apis = reactiveRedisTemplate.opsForHash().keys("limiter:config:api");
+        Flux<Object> apis = reactiveRedisTemplate.opsForHash().keys(LimiterEnum.API.key());
         Flux<Object> matchedApiList = apis.filter(e-> PathUtil.match(e.toString(),path));
         Mono<Object> matchedApiOne = matchedApiList.singleOrEmpty();
 

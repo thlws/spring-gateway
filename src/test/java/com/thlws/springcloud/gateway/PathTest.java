@@ -1,10 +1,8 @@
 package com.thlws.springcloud.gateway;
 
-import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
-import org.springframework.context.annotation.Bean;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
-import reactor.core.publisher.Mono;
 
 /**
  * @author HanleyTang 2020/8/1
@@ -12,6 +10,10 @@ import reactor.core.publisher.Mono;
 public class PathTest {
 
     public static void main(String[] args) {
+        count();
+    }
+
+    public static void match(){
         PathMatcher matcher = new AntPathMatcher();
         String pattern="/api/user/*";//路径匹配模式
 
@@ -25,8 +27,12 @@ public class PathTest {
                 "/api/3/33/12");
 
         System.out.println(result2);
-
     }
 
+    public static void count(){
+        int count = StrUtil.count("/api/user/**", "/") - 1;
+        count = Math.max(count, 0);
+        System.out.println(count);
+    }
 
 }

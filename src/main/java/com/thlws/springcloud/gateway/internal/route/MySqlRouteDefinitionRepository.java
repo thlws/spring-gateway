@@ -1,8 +1,8 @@
 package com.thlws.springcloud.gateway.internal.route;
 
 import com.google.common.collect.Lists;
-import com.thlws.springcloud.gateway.internal.core.model.GatewayRoute;
-import com.thlws.springcloud.gateway.internal.core.service.GatewayRouteService;
+import com.thlws.springcloud.gateway.mybatis.model.GatewayRoute;
+import com.thlws.springcloud.gateway.mybatis.service.GatewayRouteService;
 import com.thlws.springcloud.gateway.internal.util.RouteUtil;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;

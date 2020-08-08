@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -27,4 +28,7 @@ public class LimiterConfig implements Serializable {
 
     @Min(1)
     private int requestedTokens = 1;
+
+    @NotEmpty
+    private String limitHttpMethod = "POST,PATCH";
 }

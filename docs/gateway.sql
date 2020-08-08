@@ -19,7 +19,7 @@ CREATE TABLE `api_auth` (
    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
    `path` tinyint(4) NOT NULL DEFAULT 1 COMMENT '支持REST动态路径表达式',
    `auth` tinyint(4) NOT NULL DEFAULT 1 COMMENT '0放行; 1鉴权',
-   `http_method` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '鉴权作用HTTP METHOD',
+   `auth_http_method` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '鉴权作用HTTP METHOD,全部为*',
    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
    PRIMARY KEY (`id`)
 )ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '网关限流' ROW_FORMAT = Dynamic;
@@ -30,6 +30,7 @@ CREATE TABLE `gateway_limit` (
      `limit_type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1主机限流; 2API限流; 3用户限流',
      `limit_value` tinyint(4) NOT NULL DEFAULT 1 COMMENT '限流阀值',
      `limit_content` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '限流内容,可为 主机,API,用户',
+     `limit_http_method` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '限流HTTP METHOD,多个逗号隔开，全部为 *',
      `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '0禁用; 1启用',
      `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
      PRIMARY KEY (`id`)

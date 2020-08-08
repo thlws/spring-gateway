@@ -11,8 +11,8 @@ public enum StatusEnum {
     DISABLE(0,"禁用"),
     ENABLE(1,"可用");
 
-    private int value;
-    private String message;
+    private final int value;
+    private final String message;
 
     StatusEnum(int value, String message){
         this.value = value;
