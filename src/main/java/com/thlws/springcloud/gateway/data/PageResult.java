@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PageResult<T> implements Serializable {
 
-    private List<T> records = Collections.emptyList();
+    private List<T> list = Collections.emptyList();
 
     private long total;
 
