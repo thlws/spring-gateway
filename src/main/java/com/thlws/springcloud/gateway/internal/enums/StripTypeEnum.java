@@ -8,7 +8,7 @@ public enum StripTypeEnum {
     /**
      * NA
      */
-    NA(1,"N/A"),
+    NA(-1,"N/A"),
     FALSE(0,"否"),
     TRUE(1,"是");
 
