@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,7 @@ public class LimitManage {
     }
 
     public void insert(LimitDto dto ,LimiterEnum limiterEnum) {
+        dto.setCreateTime(LocalDateTime.now());
         GatewayLimit entity = Convert.convert(GatewayLimit.class, dto);
         entity.setLimitType(limiterEnum.value());
         limitService.save(entity);

@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,7 @@ public class AuthManage {
     private ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
 
     public void insert(ApiAuthDto dto){
+        dto.setCreateTime(LocalDateTime.now());
         authService.save(Convert.convert(ApiAuth.class, dto));
         syncToRedis(dto);
     }
