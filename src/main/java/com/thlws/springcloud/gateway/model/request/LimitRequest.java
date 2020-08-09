@@ -1,6 +1,6 @@
 package com.thlws.springcloud.gateway.model.request;
 
-import com.thlws.springcloud.gateway.data.PageRequest;
+import com.thlws.commons.data.PageRequest;
 import com.thlws.springcloud.gateway.model.dto.LimitDto;
 
 import javax.validation.Valid;

@@ -1,13 +1,13 @@
 package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
+import com.thlws.commons.data.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.thlws.springcloud.gateway.auth.config.AuthConfig;
-import com.thlws.springcloud.gateway.data.PageResult;
 import com.thlws.springcloud.gateway.internal.Const;
 import com.thlws.springcloud.gateway.internal.enums.AuthEnum;
 import com.thlws.springcloud.gateway.model.dto.ApiAuthDto;

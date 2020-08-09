@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.thlws.springcloud.gateway.data.PageResult;
+import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.internal.enums.StatusEnum;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;

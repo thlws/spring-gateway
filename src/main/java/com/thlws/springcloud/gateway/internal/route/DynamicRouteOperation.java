@@ -2,7 +2,7 @@ package com.thlws.springcloud.gateway.internal.route;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.thlws.springcloud.gateway.data.PageResult;
+import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.model.dto.GatewayRouteDto;
 import com.thlws.springcloud.gateway.mybatis.model.GatewayRoute;
 import com.thlws.springcloud.gateway.mybatis.service.GatewayRouteService;

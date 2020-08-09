@@ -1,7 +1,7 @@
 package com.thlws.springcloud.gateway.web.auth;
 
 import com.thlws.commons.ApiResult;
-import com.thlws.springcloud.gateway.data.PageResult;
+import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.manage.AuthManage;
 import com.thlws.springcloud.gateway.model.dto.ApiAuthDto;
 import com.thlws.springcloud.gateway.model.request.AuthRequest;

@@ -1,7 +1,7 @@
 package com.thlws.springcloud.gateway.web.route;
 
 import com.thlws.commons.ApiResult;
-import com.thlws.springcloud.gateway.data.PageResult;
+import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.internal.route.DynamicRouteOperation;
 import com.thlws.springcloud.gateway.model.dto.GatewayRouteDto;
 import io.swagger.annotations.Api;

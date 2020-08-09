@@ -1,7 +1,7 @@
 package com.thlws.springcloud.gateway.web.limit;
 
 import com.thlws.commons.ApiResult;
-import com.thlws.springcloud.gateway.data.PageResult;
+import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.manage.LimitManage;
 import com.thlws.springcloud.gateway.model.dto.LimitDto;
