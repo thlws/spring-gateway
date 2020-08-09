@@ -1,9 +1,13 @@
-package com.thlws.springcloud.gateway.internal.route;
+package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.thlws.commons.data.PageResult;
+import com.thlws.springcloud.gateway.internal.util.PageUtil;
 import com.thlws.springcloud.gateway.model.dto.GatewayRouteDto;
+import com.thlws.springcloud.gateway.model.request.RouteRequest;
 import com.thlws.springcloud.gateway.mybatis.model.GatewayRoute;
 import com.thlws.springcloud.gateway.mybatis.service.GatewayRouteService;
 import io.micrometer.core.lang.NonNull;
@@ -14,12 +18,13 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author HanleyTang 2020/7/26
  */
 @Service
-public class DynamicRouteOperation implements ApplicationEventPublisherAware {
+public class RouteManage implements ApplicationEventPublisherAware {
 
     @Resource
     private GatewayRouteService gatewayRouteService;
@@ -59,8 +64,14 @@ public class DynamicRouteOperation implements ApplicationEventPublisherAware {
         return Convert.convert(GatewayRouteDto.class, gatewayRouteService.getById(id));
     }
 
-    public PageResult<GatewayRouteDto> list(int page,int size){
-        Page<GatewayRoute> routePage = gatewayRouteService.page(new Page<>(page, size));
+    public PageResult<GatewayRouteDto> list(RouteRequest request){
+        PageUtil.build(request);
+        LambdaQueryWrapper<GatewayRoute> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Objects.nonNull(request.getStatus()), GatewayRoute::getStatus, request.getStatus());
+        queryWrapper.like(Objects.nonNull(request.getPredicatePath()), GatewayRoute::getPredicatePath, request.getPredicatePath());
+        queryWrapper.like(Objects.nonNull(request.getRouteId()), GatewayRoute::getRouteId, request.getRouteId());
+
+        Page<GatewayRoute> routePage = gatewayRouteService.page(new Page<>(request.getPage(), request.getSize()));
         long total = routePage.getTotal();
         List<GatewayRoute> originRecords = routePage.getRecords();
         List<GatewayRouteDto> records = Convert.toList(GatewayRouteDto.class, originRecords);

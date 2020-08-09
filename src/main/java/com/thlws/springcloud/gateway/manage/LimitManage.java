@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.thlws.commons.data.PageRequest;
 import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.internal.enums.StatusEnum;
+import com.thlws.springcloud.gateway.internal.util.PageUtil;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
 import com.thlws.springcloud.gateway.model.dto.LimitDto;
 import com.thlws.springcloud.gateway.model.request.LimitRequest;
@@ -37,15 +39,25 @@ public class LimitManage {
     @Resource(name = "customerReactiveRedisTemplate")
     private ReactiveRedisTemplate<String, Object> reactiveRedisTemplate;
 
+    private  void page(PageRequest request){
+        if (Objects.isNull(request.getPage())) {
+            request.setPage(1);
+        }
+        if (Objects.isNull(request.getSize())) {
+            request.setSize(20);
+        }
+    }
+
     public PageResult<LimitDto> list(LimitRequest request,LimiterEnum limiterEnum){
 
-        LimitDto dto = request.getData();
+        PageUtil.build(request);
+
         LambdaQueryWrapper<GatewayLimit> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(GatewayLimit::getLimitType, limiterEnum.value());
-        queryWrapper.eq(Objects.nonNull(dto.getStatus()), GatewayLimit::getStatus, dto.getStatus());
-        queryWrapper.eq(Objects.nonNull(dto.getLimitValue()), GatewayLimit::getLimitValue, dto.getLimitValue());
-        queryWrapper.like(Objects.nonNull(dto.getLimitContent()), GatewayLimit::getLimitContent, dto.getLimitContent());
-        queryWrapper.like(Objects.nonNull(dto.getLimitHttpMethod()), GatewayLimit::getLimitHttpMethod, dto.getLimitHttpMethod());
+        queryWrapper.eq(Objects.nonNull(request.getStatus()), GatewayLimit::getStatus, request.getStatus());
+        queryWrapper.eq(Objects.nonNull(request.getLimitValue()), GatewayLimit::getLimitValue, request.getLimitValue());
+        queryWrapper.like(Objects.nonNull(request.getLimitContent()), GatewayLimit::getLimitContent, request.getLimitContent());
+        queryWrapper.like(Objects.nonNull(request.getLimitHttpMethod()), GatewayLimit::getLimitHttpMethod, request.getLimitHttpMethod());
 
         IPage<GatewayLimit> pageData = limitService.page(new Page<>(request.getPage(), request.getSize()),queryWrapper);
         List<GatewayLimit> records = pageData.getRecords();

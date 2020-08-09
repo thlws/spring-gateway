@@ -1,6 +1,7 @@
 package com.thlws.springcloud.gateway.internal.route;
 
 import com.google.common.collect.Lists;
+import com.thlws.springcloud.gateway.manage.RouteManage;
 import com.thlws.springcloud.gateway.mybatis.model.GatewayRoute;
 import com.thlws.springcloud.gateway.mybatis.service.GatewayRouteService;
 import com.thlws.springcloud.gateway.internal.util.RouteUtil;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * save,delete 可不在这里实现,基于普通Service操作数据,效果一样，
  * 但要触发刷新动作,会自动调用 getRouteDefinitions,将最新数据更新到网关
- * @see DynamicRouteOperation#refreshRoutes()
+ * @see RouteManage#refreshRoutes()
  * @see MySqlRouteDefinitionRepository#getRouteDefinitions()
  * @author HanleyTang 2020/7/26
  */

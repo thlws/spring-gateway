@@ -1,15 +1,16 @@
 package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
-import com.thlws.commons.data.PageResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.auth.config.AuthConfig;
 import com.thlws.springcloud.gateway.internal.Const;
 import com.thlws.springcloud.gateway.internal.enums.AuthEnum;
+import com.thlws.springcloud.gateway.internal.util.PageUtil;
 import com.thlws.springcloud.gateway.model.dto.ApiAuthDto;
 import com.thlws.springcloud.gateway.model.request.AuthRequest;
 import com.thlws.springcloud.gateway.model.request.AuthStatusRequest;
@@ -71,11 +72,11 @@ public class AuthManage {
 
     public PageResult<ApiAuthDto> list(AuthRequest request){
 
-        ApiAuthDto dto = request.getData();
+        PageUtil.build(request);
         LambdaQueryWrapper<ApiAuth> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(Objects.nonNull(dto.getAuth()), ApiAuth::getAuth, dto.getAuth());
-        queryWrapper.like(Objects.nonNull(dto.getPath()), ApiAuth::getPath, dto.getPath());
-        queryWrapper.like(Objects.nonNull(dto.getAuthHttpMethod()), ApiAuth::getAuthHttpMethod, dto.getAuthHttpMethod());
+        queryWrapper.eq(Objects.nonNull(request.getAuth()), ApiAuth::getAuth, request.getAuth());
+        queryWrapper.like(Objects.nonNull(request.getPath()), ApiAuth::getPath, request.getPath());
+        queryWrapper.like(Objects.nonNull(request.getAuthHttpMethod()), ApiAuth::getAuthHttpMethod, request.getAuthHttpMethod());
 
         IPage<ApiAuth> pageData = authService.page(new Page<>(request.getPage(), request.getSize()),queryWrapper);
         List<ApiAuth> records = pageData.getRecords();

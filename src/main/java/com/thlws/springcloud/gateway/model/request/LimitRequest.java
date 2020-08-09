@@ -1,25 +1,95 @@
 package com.thlws.springcloud.gateway.model.request;
 
 import com.thlws.commons.data.PageRequest;
-import com.thlws.springcloud.gateway.model.dto.LimitDto;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /**
  * @author HanleyTang 2020/8/8
  */
-public class LimitRequest extends PageRequest<LimitDto> {
+public class LimitRequest extends PageRequest {
 
-    @Valid
+    /**
+     * ID
+     */
+    private Long id;
+
+    /**
+     * 限流阀值
+     */
     @NotNull
-    private LimitDto data;
+    private Integer limitValue;
 
-    public LimitDto getData() {
-        return data;
+    /**
+     * 限流内容,可为 主机,API,用户
+     */
+    @NotNull
+    private String limitContent;
+
+    /**
+     * 限流HTTP METHOD,多个逗号隔开，全部为 *
+     */
+    @NotNull
+    private String limitHttpMethod;
+
+    /**
+     * 0禁用; 1启用
+     */
+    @NotNull
+    private Integer status;
+
+    /**
+     * 创建日期
+     */
+    private LocalDateTime createTime;
+
+
+    public Long getId() {
+        return id;
     }
 
-    public void setData(LimitDto data) {
-        this.data = data;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getLimitValue() {
+        return limitValue;
+    }
+
+    public void setLimitValue(Integer limitValue) {
+        this.limitValue = limitValue;
+    }
+
+    public String getLimitContent() {
+        return limitContent;
+    }
+
+    public void setLimitContent(String limitContent) {
+        this.limitContent = limitContent;
+    }
+
+    public String getLimitHttpMethod() {
+        return limitHttpMethod;
+    }
+
+    public void setLimitHttpMethod(String limitHttpMethod) {
+        this.limitHttpMethod = limitHttpMethod;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 }
