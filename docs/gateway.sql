@@ -17,8 +17,8 @@ CREATE TABLE `route` (
 #API鉴权
 CREATE TABLE `api_auth` (
    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-   `path` tinyint(4) NOT NULL DEFAULT 1 COMMENT '支持REST动态路径表达式',
-   `auth` tinyint(4) NOT NULL DEFAULT 1 COMMENT '0放行; 1鉴权',
+   `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '支持REST动态路径表达式',
+   `auth` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1放行; 2鉴权',
    `auth_http_method` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '鉴权作用HTTP METHOD,全部为*',
    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
    PRIMARY KEY (`id`)

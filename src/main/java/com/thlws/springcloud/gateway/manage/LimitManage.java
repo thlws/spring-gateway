@@ -16,7 +16,7 @@ import com.thlws.springcloud.gateway.model.request.StatusRequest;
 import com.thlws.springcloud.gateway.mybatis.model.GatewayLimit;
 import com.thlws.springcloud.gateway.mybatis.service.GatewayLimitService;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.Objects;
 /**
  * @author HanleyTang 2020/8/8
  */
-@Service
+@Component
 public class LimitManage {
 
     @Resource
@@ -97,16 +97,16 @@ public class LimitManage {
     }
 
     private void syncToRedis(LimiterEnum limiterEnum,LimitDto dto){
-        LimiterConfig config = LimiterConfig.builder()
-                .burstCapacity(dto.getLimitValue())
-                .replenishRate(dto.getLimitValue())
-                .limitHttpMethod(dto.getLimitHttpMethod())
-                .requestedTokens(1).build();
-        Map<String, Object> map = new HashMap<>(1);
-        map.put(dto.getLimitContent(), config);
-        reactiveRedisTemplate.opsForHash().putAll(limiterEnum.key(),map);
-
-
+        if (dto.getStatus() == StatusEnum.ENABLE.value()) {
+            LimiterConfig config = LimiterConfig.builder()
+                    .burstCapacity(dto.getLimitValue())
+                    .replenishRate(dto.getLimitValue())
+                    .limitHttpMethod(dto.getLimitHttpMethod())
+                    .requestedTokens(1).build();
+            Map<String, Object> map = new HashMap<>(1);
+            map.put(dto.getLimitContent(), config);
+            reactiveRedisTemplate.opsForHash().putAll(limiterEnum.key(),map);
+        }
     }
 
     private void removeFromRedis(LimiterEnum limiterEnum,String member){

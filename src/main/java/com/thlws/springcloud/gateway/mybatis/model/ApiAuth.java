@@ -1,13 +1,14 @@
 package com.thlws.springcloud.gateway.mybatis.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Mybatis plus generator
- * @since 2020-08-08
+ * @since 2020-08-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,10 +35,10 @@ public class ApiAuth implements Serializable {
      * 支持REST动态路径表达式
      */
     @TableField("path")
-    private Integer path;
+    private String path;
 
     /**
-     * 0放行; 1鉴权
+     * 1放行; 2鉴权
      */
     @TableField("auth")
     private Integer auth;

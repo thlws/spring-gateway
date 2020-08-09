@@ -54,9 +54,9 @@ public class LimitProcessor {
                 return Mono.empty();
             }
 
-            log.info("request has been limited [{}],config=[{}]",key,config.toString());
+            log.warn("request has been limited [{}],config=[{}]",key,config.toString());
 
-            ApiResult<String> apiResult = ApiResult.error(HttpStatus.TOO_MANY_REQUESTS.value(), "请求过于频繁.");
+            ApiResult<String> apiResult = ApiResult.error(HttpStatus.TOO_MANY_REQUESTS.value(), "请求过于频繁。");
             byte [] bytes = JSON.toJSONString(apiResult).getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
             exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);

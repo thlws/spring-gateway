@@ -31,8 +31,8 @@ public class Swagger3Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("网关API")
-                .description("网关配置接口")
+                .title("网关配置管理")
+                .description("基于 Spring Cloud Gateway 扩展动态路由、多维度限流、API鉴权功能.")
                 .contact(new Contact("Hanley", "#", "hanley@thlws.com"))
                 .version("1.0")
                 .build();

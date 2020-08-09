@@ -1,5 +1,7 @@
 package com.thlws.springcloud.gateway.web;
 
+import com.thlws.springcloud.gateway.auth.config.AuthConfig;
+import com.thlws.springcloud.gateway.internal.Const;
 import com.thlws.springcloud.gateway.limiter.config.LimiterConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,6 +67,17 @@ public class IndexController {
         Map<String, Object> map = new HashMap<>(1);
         map.put("hanley", config);
         return reactiveRedisTemplate.opsForHash().putAll("limiter:config:user",map);
+
+    }
+
+
+    @RequestMapping("/auth/add")
+    public Mono<Long> authAdd(){
+        AuthConfig config = AuthConfig.builder()
+                .path("/api/user/{name}")
+                .authHttpMethod("GET")
+                .build();
+        return reactiveRedisTemplate.opsForSet().add(Const.Key.AUTH_API,config);
 
     }
 
