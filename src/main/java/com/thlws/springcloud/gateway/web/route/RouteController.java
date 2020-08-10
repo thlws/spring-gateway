@@ -16,6 +16,7 @@ import javax.annotation.Resource;
  */
 @Api(tags = "路由管理")
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/routes")
 public class RouteController {
 

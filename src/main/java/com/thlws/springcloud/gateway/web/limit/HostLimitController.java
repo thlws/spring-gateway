@@ -19,6 +19,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "Host限流")
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/limits/hosts")
 public class HostLimitController {
 

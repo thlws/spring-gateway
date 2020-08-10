@@ -18,6 +18,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "鉴权管理")
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/auths")
 public class AuthController {
 

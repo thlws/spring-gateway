@@ -19,6 +19,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "API限流")
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/limits/apis")
 public class ApiLimitController {
 
