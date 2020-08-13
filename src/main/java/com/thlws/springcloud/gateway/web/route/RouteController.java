@@ -5,6 +5,7 @@ import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.manage.RouteManage;
 import com.thlws.springcloud.gateway.model.dto.GatewayRouteDto;
 import com.thlws.springcloud.gateway.model.request.RouteRequest;
+import com.thlws.springcloud.gateway.model.request.StatusRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -51,10 +52,17 @@ public class RouteController {
         return ApiResult.ok();
     }
 
-    @PatchMapping("/")
+    @PutMapping("/")
     @ApiOperation(value="路由更新")
     public ApiResult<Void> update(@RequestBody GatewayRouteDto entity) {
         routeManage.update(entity);
+        return ApiResult.ok();
+    }
+
+    @PatchMapping("/status")
+    @ApiOperation(value="路由状态更新")
+    public ApiResult<Void> updateStatus(@RequestBody StatusRequest entity) {
+        routeManage.updateStatus(entity);
         return ApiResult.ok();
     }
 

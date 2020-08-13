@@ -8,6 +8,7 @@ import com.thlws.commons.data.PageResult;
 import com.thlws.springcloud.gateway.internal.util.PageUtil;
 import com.thlws.springcloud.gateway.model.dto.GatewayRouteDto;
 import com.thlws.springcloud.gateway.model.request.RouteRequest;
+import com.thlws.springcloud.gateway.model.request.StatusRequest;
 import com.thlws.springcloud.gateway.mybatis.model.GatewayRoute;
 import com.thlws.springcloud.gateway.mybatis.service.GatewayRouteService;
 import io.micrometer.core.lang.NonNull;
@@ -60,6 +61,13 @@ public class RouteManage implements ApplicationEventPublisherAware {
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
+    public void updateStatus(StatusRequest request) {
+        GatewayRoute gatewayRoute = gatewayRouteService.getById(request.getId());
+        gatewayRoute.setStatus(request.getStatus());
+        gatewayRouteService.updateById(gatewayRoute);
+        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+    }
+
     public GatewayRouteDto detail(Long id){
         return Convert.convert(GatewayRouteDto.class, gatewayRouteService.getById(id));
     }
@@ -71,7 +79,7 @@ public class RouteManage implements ApplicationEventPublisherAware {
         queryWrapper.like(Objects.nonNull(request.getPredicatePath()), GatewayRoute::getPredicatePath, request.getPredicatePath());
         queryWrapper.like(Objects.nonNull(request.getRouteId()), GatewayRoute::getRouteId, request.getRouteId());
 
-        Page<GatewayRoute> routePage = gatewayRouteService.page(new Page<>(request.getPage(), request.getSize()));
+        Page<GatewayRoute> routePage = gatewayRouteService.page(new Page<>(request.getPage(), request.getSize()),queryWrapper);
         long total = routePage.getTotal();
         List<GatewayRoute> originRecords = routePage.getRecords();
         List<GatewayRouteDto> records = Convert.toList(GatewayRouteDto.class, originRecords);
