@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull;
 public class AuthStatusRequest {
 
     @NotNull
-    private long id;
+    private Long id;
 
     @NotNull
-    private int auth;
+    private Integer auth;
 }

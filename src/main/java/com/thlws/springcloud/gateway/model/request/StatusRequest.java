@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull;
 public class StatusRequest {
 
     @NotNull
-    private long id;
+    private Long id;
 
     @NotNull
-    private int status;
+    private Integer status;
 }

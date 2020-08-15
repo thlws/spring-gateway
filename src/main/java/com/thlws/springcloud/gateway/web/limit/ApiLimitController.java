@@ -56,7 +56,7 @@ public class ApiLimitController {
 
     @PatchMapping("/status")
     @ApiOperation(value="API限流状态修改")
-    public ApiResult<Void> modify(@RequestBody @Valid StatusRequest request){
+    public ApiResult<Void> modifyStatus(@RequestBody @Valid StatusRequest request){
         limitManage.updateStatus(request,LimiterEnum.API);
         return ApiResult.ok();
     }

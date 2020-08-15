@@ -56,7 +56,7 @@ public class HostLimitController {
 
     @PatchMapping("/status")
     @ApiOperation(value="HOST限流状态修改")
-    public ApiResult<Void> modify(@RequestBody @Valid StatusRequest request){
+    public ApiResult<Void> modifyStatus(@RequestBody @Valid StatusRequest request){
         limitManage.updateStatus(request,LimiterEnum.HOST);
         return ApiResult.ok();
     }
