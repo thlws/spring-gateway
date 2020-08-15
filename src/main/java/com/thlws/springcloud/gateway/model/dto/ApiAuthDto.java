@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -24,16 +25,19 @@ public class ApiAuthDto {
     /**
      * 支持REST动态路径表达式
      */
+    @NotNull
     private String path;
 
     /**
      * 1放行; 2鉴权
      */
+    @NotNull
     private Integer auth;
 
     /**
      * 鉴权作用HTTP METHOD,全部为*
      */
+    @NotNull
     private String authHttpMethod;
 
     /**

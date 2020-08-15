@@ -2,7 +2,6 @@ package com.thlws.springcloud.gateway.model.request;
 
 import com.thlws.commons.data.PageRequest;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -18,25 +17,21 @@ public class LimitRequest extends PageRequest {
     /**
      * 限流阀值
      */
-    @NotNull
     private Integer limitValue;
 
     /**
      * 限流内容,可为 主机,API,用户
      */
-    @NotNull
     private String limitContent;
 
     /**
      * 限流HTTP METHOD,多个逗号隔开，全部为 *
      */
-    @NotNull
     private String limitHttpMethod;
 
     /**
      * 0禁用; 1启用
      */
-    @NotNull
     private Integer status;
 
     /**

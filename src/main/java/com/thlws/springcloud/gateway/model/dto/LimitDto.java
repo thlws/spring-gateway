@@ -20,10 +20,6 @@ public class LimitDto implements Serializable {
      */
     private Long id;
 
-    /**
-     * 1主机限流; 2API限流; 3用户限流
-     */
-//    private Integer limitType;
 
     /**
      * 限流阀值

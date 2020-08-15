@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,31 +33,37 @@ public class GatewayRouteDto implements Serializable {
     /**
      * 路由编号,一般对应一个微服务
      */
+    @NotNull
     private String routeId;
 
     /**
      * 服务路径,内部微服务 lb://开头
      */
+    @NotNull
     private String routeUri;
 
     /**
      * 1内部服务; 2外部地址
      */
+    @NotNull
     private Integer routeType;
 
     /**
      * 匹配路径,eg:/api/user/**
      */
+    @NotNull
     private String predicatePath;
 
     /**
      * 0禁用; 1启用
      */
+    @NotNull
     private Integer status;
 
     /**
      * 去除前缀类型 -1_N/A; 0_false 1_true
      */
+    @NotNull
     private Integer stripType;
 
     /**
