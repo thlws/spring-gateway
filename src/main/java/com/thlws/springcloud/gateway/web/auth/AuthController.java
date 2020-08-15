@@ -25,44 +25,44 @@ public class AuthController {
     @Resource
     private AuthManage authManage;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     @ApiOperation(value="鉴权API列表")
     public ApiResult<PageResult<ApiAuthDto>> list(AuthRequest request){
         PageResult<ApiAuthDto> data = authManage.list(request);
         return ApiResult.ok(data);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/{id}")
     @ApiOperation(value="鉴权API详情")
-    public ApiResult<ApiAuthDto> detail(Long id){
+    public ApiResult<ApiAuthDto> detail(@PathVariable Long id){
         ApiAuthDto data = authManage.detail(id);
         return ApiResult.ok(data);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     @ApiOperation(value="鉴权API创建")
     public ApiResult<Void> insert(@RequestBody @Valid ApiAuthDto dto){
         authManage.insert(dto);
         return ApiResult.ok();
     }
 
-    @PostMapping("/modify")
+    @PutMapping("/")
     @ApiOperation(value="鉴权API修改")
     public ApiResult<Void> modify(@RequestBody @Valid ApiAuthDto dto){
         authManage.update(dto);
         return ApiResult.ok();
     }
 
-    @PatchMapping("/modify/status")
+    @PatchMapping("/status")
     @ApiOperation(value="鉴权API状态修改")
     public ApiResult<Void> modify(@RequestBody @Valid AuthStatusRequest request){
         authManage.updateStatus(request);
         return ApiResult.ok();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @ApiOperation(value="鉴权API删除")
-    public ApiResult<Void> delete(Long id){
+    public ApiResult<Void> delete(@PathVariable Long id){
         authManage.delete(id);
         return ApiResult.ok();
     }

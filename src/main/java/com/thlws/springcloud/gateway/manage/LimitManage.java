@@ -2,7 +2,6 @@ package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -98,11 +97,12 @@ public class LimitManage {
     }
 
     public void updateStatus(StatusRequest request, LimiterEnum limiterEnum) {
-        LambdaUpdateWrapper<GatewayLimit> updateWrapper = Wrappers.lambdaUpdate();
-        updateWrapper.eq(GatewayLimit::getId, request.getId());
-        updateWrapper.eq(GatewayLimit::getStatus, request.getStatus());
-        limitService.update(updateWrapper);
-        LimitDto newDto = detail(request.getId(),limiterEnum);
+
+        GatewayLimit limit = limitService.getById(request.getId());
+        limit.setStatus(request.getStatus());
+        limitService.updateById(limit);
+
+        LimitDto newDto = Convert.convert(LimitDto.class, limit);
         if (request.getStatus() == StatusEnum.ENABLE.value()) {
             syncToRedis(limiterEnum, newDto);
         }else{

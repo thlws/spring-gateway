@@ -26,44 +26,44 @@ public class ApiLimitController {
     @Resource
     private LimitManage limitManage;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     @ApiOperation(value="API限流列表")
     public ApiResult<PageResult<LimitDto>> list(LimitRequest request){
         PageResult<LimitDto> data = limitManage.list(request, LimiterEnum.API);
         return ApiResult.ok(data);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/{id}")
     @ApiOperation(value="API限流详情")
-    public ApiResult<LimitDto> detail(Long id){
+    public ApiResult<LimitDto> detail(@PathVariable Long id){
         LimitDto data = limitManage.detail(id,LimiterEnum.API);
         return ApiResult.ok(data);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     @ApiOperation(value="API限流创建")
     public ApiResult<Void> insert(@RequestBody @Valid LimitDto dto){
         limitManage.insert(dto, LimiterEnum.API);
         return ApiResult.ok();
     }
 
-    @PostMapping("/modify")
+    @PutMapping("/")
     @ApiOperation(value="API限流修改")
     public ApiResult<Void> modify(@RequestBody @Valid LimitDto dto){
         limitManage.update(dto,LimiterEnum.API);
         return ApiResult.ok();
     }
 
-    @PatchMapping("/modify/status")
+    @PatchMapping("/status")
     @ApiOperation(value="API限流状态修改")
     public ApiResult<Void> modify(@RequestBody @Valid StatusRequest request){
         limitManage.updateStatus(request,LimiterEnum.API);
         return ApiResult.ok();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @ApiOperation(value="API限流删除")
-    public ApiResult<Void> delete(Long id){
+    public ApiResult<Void> delete(@PathVariable Long id){
         limitManage.delete(id,LimiterEnum.API);
         return ApiResult.ok();
     }

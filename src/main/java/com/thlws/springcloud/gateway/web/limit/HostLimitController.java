@@ -26,44 +26,44 @@ public class HostLimitController {
     @Resource
     private LimitManage limitManage;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     @ApiOperation(value="HOST限流列表")
     public ApiResult<PageResult<LimitDto>> list(LimitRequest request){
         PageResult<LimitDto> data = limitManage.list(request, LimiterEnum.HOST);
         return ApiResult.ok(data);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/{id}")
     @ApiOperation(value="HOST限流详情")
-    public ApiResult<LimitDto> detail(Long id){
+    public ApiResult<LimitDto> detail(@PathVariable Long id){
         LimitDto data = limitManage.detail(id, LimiterEnum.HOST);
         return ApiResult.ok(data);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     @ApiOperation(value="HOST限流创建")
-    public ApiResult<Void> insert(LimitDto dto){
+    public ApiResult<Void> insert(@RequestBody @Valid LimitDto dto){
         limitManage.insert(dto, LimiterEnum.HOST);
         return ApiResult.ok();
     }
 
-    @PostMapping("/modify")
+    @PutMapping("/")
     @ApiOperation(value="HOST限流修改")
-    public ApiResult<Void> modify(LimitDto dto){
+    public ApiResult<Void> modify(@RequestBody @Valid LimitDto dto){
         limitManage.update(dto, LimiterEnum.HOST);
         return ApiResult.ok();
     }
 
-    @PatchMapping("/modify/status")
+    @PatchMapping("/status")
     @ApiOperation(value="HOST限流状态修改")
     public ApiResult<Void> modify(@RequestBody @Valid StatusRequest request){
         limitManage.updateStatus(request,LimiterEnum.HOST);
         return ApiResult.ok();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @ApiOperation(value="HOST限流删除")
-    public ApiResult<Void> delete(Long id){
+    public ApiResult<Void> delete(@PathVariable Long id){
         limitManage.delete(id, LimiterEnum.HOST);
         return ApiResult.ok();
     }

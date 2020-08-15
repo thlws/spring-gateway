@@ -2,7 +2,6 @@ package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -58,11 +57,13 @@ public class AuthManage {
     }
 
     public void updateStatus(AuthStatusRequest request) {
-        LambdaUpdateWrapper<ApiAuth> updateWrapper = Wrappers.lambdaUpdate();
-        updateWrapper.eq(ApiAuth::getId, request.getId());
-        updateWrapper.eq(ApiAuth::getAuth, request.getAuth());
-        authService.update(updateWrapper);
-        ApiAuthDto newDto = detail(request.getId());
+
+        ApiAuth apiAuth = authService.getById(request.getId());
+        apiAuth.setAuth(request.getAuth());
+        authService.updateById(apiAuth);
+
+        ApiAuthDto newDto = Convert.convert(ApiAuthDto.class, apiAuth);
+
         if (request.getAuth() == AuthEnum.AUTH.value()) {
             syncToRedis(newDto);
         }else{
