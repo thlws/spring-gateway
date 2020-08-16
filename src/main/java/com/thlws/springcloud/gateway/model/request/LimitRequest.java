@@ -24,6 +24,8 @@ public class LimitRequest extends PageRequest {
      */
     private String limitContent;
 
+    private String sort;
+
     /**
      * 限流HTTP METHOD,多个逗号隔开，全部为 *
      */
@@ -86,5 +88,13 @@ public class LimitRequest extends PageRequest {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

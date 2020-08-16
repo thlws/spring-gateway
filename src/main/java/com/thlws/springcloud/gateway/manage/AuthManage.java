@@ -1,6 +1,7 @@
 package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -78,6 +79,9 @@ public class AuthManage {
         queryWrapper.eq(Objects.nonNull(request.getAuth()), ApiAuth::getAuth, request.getAuth());
         queryWrapper.like(Objects.nonNull(request.getPath()), ApiAuth::getPath, request.getPath());
         queryWrapper.like(Objects.nonNull(request.getAuthHttpMethod()), ApiAuth::getAuthHttpMethod, request.getAuthHttpMethod());
+        if (StrUtil.equals(Const.Sort.ID_DESC, request.getSort())) {
+            queryWrapper.orderByDesc(ApiAuth::getId);
+        }
 
         IPage<ApiAuth> pageData = authService.page(new Page<>(request.getPage(), request.getSize()),queryWrapper);
         List<ApiAuth> records = pageData.getRecords();

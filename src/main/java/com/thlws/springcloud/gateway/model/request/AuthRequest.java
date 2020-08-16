@@ -19,6 +19,8 @@ public class AuthRequest extends PageRequest {
      */
     private String path;
 
+    private String sort;
+
     /**
      * 1放行; 2鉴权
      */
@@ -72,5 +74,13 @@ public class AuthRequest extends PageRequest {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

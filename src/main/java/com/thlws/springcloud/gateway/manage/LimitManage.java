@@ -1,12 +1,14 @@
 package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.thlws.commons.data.PageRequest;
 import com.thlws.commons.data.PageResult;
+import com.thlws.springcloud.gateway.internal.Const;
 import com.thlws.springcloud.gateway.internal.enums.LimiterEnum;
 import com.thlws.springcloud.gateway.internal.enums.StatusEnum;
 import com.thlws.springcloud.gateway.internal.util.PageUtil;
@@ -57,6 +59,10 @@ public class LimitManage {
         queryWrapper.eq(Objects.nonNull(request.getLimitValue()), GatewayLimit::getLimitValue, request.getLimitValue());
         queryWrapper.like(Objects.nonNull(request.getLimitContent()), GatewayLimit::getLimitContent, request.getLimitContent());
         queryWrapper.like(Objects.nonNull(request.getLimitHttpMethod()), GatewayLimit::getLimitHttpMethod, request.getLimitHttpMethod());
+
+        if (StrUtil.equals(Const.Sort.ID_DESC, request.getSort())) {
+            queryWrapper.orderByDesc(GatewayLimit::getId);
+        }
 
         IPage<GatewayLimit> pageData = limitService.page(new Page<>(request.getPage(), request.getSize()),queryWrapper);
         List<GatewayLimit> records = pageData.getRecords();

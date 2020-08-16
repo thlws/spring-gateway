@@ -9,4 +9,8 @@ public interface Const {
         String AUTH_API = "gateway:auth:api";
     }
 
+    interface Sort{
+        String ID_DESC = "-id";
+        String ID_ASC = "+id";
+    }
 }

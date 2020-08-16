@@ -22,6 +22,7 @@ public class RouteRequest extends PageRequest {
      * 匹配路径,eg:/api/user/**
      */
     private String predicatePath;
+    private String sort;
 
     /**
      * 0禁用; 1启用
@@ -58,5 +59,13 @@ public class RouteRequest extends PageRequest {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

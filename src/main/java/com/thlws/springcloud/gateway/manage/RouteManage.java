@@ -1,10 +1,12 @@
 package com.thlws.springcloud.gateway.manage;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.thlws.commons.data.PageResult;
+import com.thlws.springcloud.gateway.internal.Const;
 import com.thlws.springcloud.gateway.internal.util.PageUtil;
 import com.thlws.springcloud.gateway.model.dto.GatewayRouteDto;
 import com.thlws.springcloud.gateway.model.request.RouteRequest;
@@ -78,6 +80,10 @@ public class RouteManage implements ApplicationEventPublisherAware {
         queryWrapper.eq(Objects.nonNull(request.getStatus()), GatewayRoute::getStatus, request.getStatus());
         queryWrapper.like(Objects.nonNull(request.getPredicatePath()), GatewayRoute::getPredicatePath, request.getPredicatePath());
         queryWrapper.like(Objects.nonNull(request.getRouteId()), GatewayRoute::getRouteId, request.getRouteId());
+
+        if (StrUtil.equals(Const.Sort.ID_DESC, request.getSort())) {
+            queryWrapper.orderByDesc(GatewayRoute::getId);
+        }
 
         Page<GatewayRoute> routePage = gatewayRouteService.page(new Page<>(request.getPage(), request.getSize()),queryWrapper);
         long total = routePage.getTotal();
